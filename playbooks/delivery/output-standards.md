@@ -4,6 +4,8 @@
 
 This playbook defines how project outputs should be named, stored, and summarized so results remain traceable and ready for paper integration.
 
+When an output depends on a new or changed dataset, use this playbook together with `playbooks/data/data-workflow.md`.
+
 ## Storage Rules
 
 | Output Type | Location |

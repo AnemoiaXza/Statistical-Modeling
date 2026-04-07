@@ -12,6 +12,8 @@ Use this workflow for every dataset batch before model code consumes it.
 - In scope: data handling, quality checks, analysis records, storage locations, and handoff artifacts.
 - Out of scope: research design decisions (variable definition changes, model specification changes, sample policy changes).
 
+If a data issue would change research meaning rather than execution detail, stop and consult `playbooks/research/decision-boundaries.md`.
+
 ## Required Locations
 
 | Artifact | Required Location |

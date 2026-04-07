@@ -5,6 +5,8 @@
 This playbook defines which decisions agents must not make without explicit user approval.
 Use it whenever a task touches variable definitions, sample policy, model design, or interpretation.
 
+For execution-only data handling, return to `playbooks/data/data-workflow.md`.
+
 ## Default Rule
 
 If a choice changes the research design, the paper narrative, or the meaning of a reported result, stop and ask the user.

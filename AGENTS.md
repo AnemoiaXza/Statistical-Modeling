@@ -43,5 +43,6 @@ Stop and ask the user before deciding any research design item, including:
 - Treat `data/raw/` as read-only.
 - Keep analysis outputs traceable to input data and scripts.
 - Record data intake and analysis using the matching playbook templates.
+- If a task spans data handling and result delivery, read both the data and delivery playbooks before acting.
 - Do not embed detailed templates or checklists into `AGENTS.md`; keep it as navigation.
 - If a routed playbook file is missing, stop and ask before inventing process details.
