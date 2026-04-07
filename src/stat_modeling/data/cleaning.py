@@ -19,3 +19,21 @@ def interpolate_by_group(
             lambda values: values.interpolate(method="linear", limit_area="inside")
         )
     return result
+
+
+def expand_balanced_panel(
+    frame: pd.DataFrame,
+    entity_key: str,
+    time_key: str,
+    time_values: list[int] | None = None,
+) -> pd.DataFrame:
+    entities = pd.Index(frame[entity_key].dropna().unique(), name=entity_key)
+    if time_values is None:
+        ordered_time_values = sorted(frame[time_key].dropna().unique())
+    else:
+        ordered_time_values = sorted(time_values)
+    times = pd.Index(ordered_time_values, name=time_key)
+    index = pd.MultiIndex.from_product([entities, times])
+
+    balanced = index.to_frame(index=False)
+    return balanced.merge(frame, on=[entity_key, time_key], how="left")
