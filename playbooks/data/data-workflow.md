@@ -22,9 +22,18 @@ Use this workflow for every dataset batch before model code consumes it.
 | Tables for reporting | `outputs/tables/` |
 | Figures for reporting | `outputs/figures/` |
 | Run summaries / logs | `logs/` |
-| Intake record | `playbooks/data/data-intake-template.md` (copy to run record file) |
-| Analysis record | `playbooks/data/data-analysis-template.md` (copy to run record file) |
-| Field mapping record | `playbooks/data/variable-mapping-template.md` (copy to run record file) |
+| Intake record copies | `logs/data_records/intake/` |
+| Analysis record copies | `logs/data_records/analysis/` |
+| Field mapping record copies | `logs/data_records/mapping/` |
+| Intake record template | `playbooks/data/data-intake-template.md` |
+| Analysis record template | `playbooks/data/data-analysis-template.md` |
+| Field mapping record template | `playbooks/data/variable-mapping-template.md` |
+
+Filled record copies should use stable names such as:
+
+- `logs/data_records/intake/<date>_<dataset>_intake.md`
+- `logs/data_records/analysis/<date>_<dataset>_analysis.md`
+- `logs/data_records/mapping/<date>_<dataset>_mapping.md`
 
 ## Workflow Stages
 
@@ -36,7 +45,7 @@ Inputs:
 
 Outputs:
 - Raw files saved under `data/raw/`
-- One intake record based on `data-intake-template.md`
+- One intake record copy saved under `logs/data_records/intake/`
 
 Checks:
 - File checksum or row count captured
@@ -63,7 +72,7 @@ Inputs:
 - Accepted raw dataset
 
 Outputs:
-- Field mapping record from raw names to standard project variables
+- Field mapping record saved under `logs/data_records/mapping/`
 
 Checks:
 - Every modeling variable has a source field or an explicit gap
@@ -75,7 +84,7 @@ Inputs:
 - Candidate table after initial harmonization
 
 Outputs:
-- Analysis record based on `data-analysis-template.md`
+- Analysis record copy saved under `logs/data_records/analysis/`
 
 Checks:
 - Descriptive profile captured

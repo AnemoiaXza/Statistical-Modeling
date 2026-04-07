@@ -8,6 +8,7 @@ Use this template for each new dataset batch.
 | --- | --- |
 | intake_id | |
 | dataset_name | |
+| record_path | |
 | source_provider | |
 | source_link | |
 | access_method | |

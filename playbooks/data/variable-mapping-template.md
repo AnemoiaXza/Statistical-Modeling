@@ -8,6 +8,7 @@ Use this template to map raw source fields to project-standard variables.
 | --- | --- |
 | mapping_id | |
 | dataset_name | |
+| record_path | |
 | source_path | |
 | prepared_by | |
 | prepared_timestamp | |
