@@ -18,3 +18,9 @@ data/processed/*
 outputs/tables/*
 outputs/figures/*
 logs/*
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+!outputs/tables/.gitkeep
+!outputs/figures/.gitkeep
+!logs/.gitkeep
