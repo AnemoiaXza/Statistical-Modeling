@@ -9,9 +9,9 @@ Use this template after initial harmonization and before final processed handoff
 | analysis_id | |
 | dataset_or_panel_name | |
 | record_path | |
+| producer_script_path | |
 | input_path | |
 | output_candidate_path | |
-| script_path | |
 | analysis_timestamp | |
 | analyst | |
 

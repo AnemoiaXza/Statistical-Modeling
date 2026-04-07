@@ -16,6 +16,8 @@ If a data issue would change research meaning rather than execution detail, stop
 
 ## Required Locations
 
+Canonical record root for filled copies: `logs/data_records/`
+
 | Artifact | Required Location |
 | --- | --- |
 | Raw files (read-only) | `data/raw/` |
@@ -31,7 +33,9 @@ If a data issue would change research meaning rather than execution detail, stop
 | Analysis record template | `playbooks/data/data-analysis-template.md` |
 | Field mapping record template | `playbooks/data/variable-mapping-template.md` |
 
-Filled record copies should use stable names such as:
+Filled record copies should use stable names: `<date>_<dataset>_<record_type>.md`
+
+Recommended examples:
 
 - `logs/data_records/intake/<date>_<dataset>_intake.md`
 - `logs/data_records/analysis/<date>_<dataset>_analysis.md`
