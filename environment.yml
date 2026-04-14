@@ -16,7 +16,7 @@ dependencies:
   - pytest=8.3.3
   - requests=2.32.3
   - beautifulsoup4=4.12.3
-  - pdfplumber=0.11.4
+  - pypdf=5.1.0
   - pip:
       - econml==0.15.1
       - doubleml==0.8.1
