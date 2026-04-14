@@ -4,7 +4,6 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from stat_modeling.config import POLICY_TEXT_INTERIM_DIR, POLICY_TEXT_LOGS_DIR, POLICY_TEXT_PROCESSED_DIR
-from stat_modeling.data.io import write_text
 
 
 def ensure_policy_text_directories() -> tuple[Path, Path, Path]:
@@ -30,7 +29,10 @@ def attachment_path(doc_id: str, source_url: str, fallback_suffix: str = ".bin")
 
 
 def write_raw_html(doc_id: str, html: str) -> Path:
-    return write_text(html, raw_html_path(doc_id).with_suffix(".txt"))
+    destination = raw_html_path(doc_id)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_text(html, encoding="utf-8")
+    return destination
 
 
 def write_attachment(doc_id: str, content: bytes, source_url: str, fallback_suffix: str = ".bin") -> Path:
