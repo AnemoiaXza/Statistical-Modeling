@@ -1,8 +1,12 @@
 from pathlib import Path
 from subprocess import run
+import sys
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT / "src"))
+
+from stat_modeling.config import POLICY_TEXT_LOGS_DIR
 
 
 def test_policy_text_script_runs_with_help():
@@ -21,7 +25,7 @@ def test_policy_text_script_runs_with_help():
 
 def test_policy_text_script_writes_dry_run_summary():
     summary_name = "policy_text_pipeline_smoke.txt"
-    summary_path = REPO_ROOT / "logs" / "policy_text" / summary_name
+    summary_path = POLICY_TEXT_LOGS_DIR / summary_name
     if summary_path.exists():
         summary_path.unlink()
 
