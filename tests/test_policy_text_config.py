@@ -3,17 +3,35 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from stat_modeling.config import ensure_project_directories
+from stat_modeling import config
 
 
-def test_policy_text_directories_are_created(tmp_path, monkeypatch):
-    monkeypatch.setattr("stat_modeling.config.INTERIM_DATA_DIR", tmp_path / "interim")
-    monkeypatch.setattr("stat_modeling.config.PROCESSED_DATA_DIR", tmp_path / "processed")
-    monkeypatch.setattr("stat_modeling.config.LOGS_DIR", tmp_path / "logs")
+def test_policy_text_directories_are_registered():
+    expected_directories = (
+        config.POLICY_TEXT_INTERIM_DIR,
+        config.POLICY_TEXT_PROCESSED_DIR,
+        config.POLICY_TEXT_LOGS_DIR,
+    )
 
-    created = ensure_project_directories()
+    assert config.POLICY_TEXT_INTERIM_DIR == config.INTERIM_DATA_DIR / "policy_text"
+    assert config.POLICY_TEXT_PROCESSED_DIR == config.PROCESSED_DATA_DIR / "policy_text"
+    assert config.POLICY_TEXT_LOGS_DIR == config.LOGS_DIR / "policy_text"
+    assert all(path in config.REQUIRED_DIRECTORIES for path in expected_directories)
 
-    assert any(path.name == "policy_text" for path in created)
-    assert (tmp_path / "interim" / "policy_text").exists()
-    assert (tmp_path / "processed" / "policy_text").exists()
-    assert (tmp_path / "logs" / "policy_text").exists()
+
+def test_ensure_project_directories_creates_policy_text_directories(tmp_path, monkeypatch):
+    policy_directories = (
+        tmp_path / "interim" / "policy_text",
+        tmp_path / "processed" / "policy_text",
+        tmp_path / "logs" / "policy_text",
+    )
+
+    monkeypatch.setattr(config, "POLICY_TEXT_INTERIM_DIR", policy_directories[0])
+    monkeypatch.setattr(config, "POLICY_TEXT_PROCESSED_DIR", policy_directories[1])
+    monkeypatch.setattr(config, "POLICY_TEXT_LOGS_DIR", policy_directories[2])
+    monkeypatch.setattr(config, "REQUIRED_DIRECTORIES", policy_directories)
+
+    created = config.ensure_project_directories()
+
+    assert created == list(policy_directories)
+    assert all(path.exists() for path in policy_directories)

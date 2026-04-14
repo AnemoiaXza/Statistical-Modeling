@@ -19,3 +19,4 @@ def test_summarize_score_alignment_reports_rule_llm_directions():
     summary = summarize_score_alignment(frame)
 
     assert "policy_strength_by_quant_target" in summary
+    assert summary["policy_strength_by_quant_target"][True] > summary["policy_strength_by_quant_target"][False]

@@ -15,8 +15,12 @@ def test_normalize_policy_record_extracts_core_fields():
         "content_text": "提出目标、责任单位和实施期限。",
     }
 
-    normalized = normalize_policy_record(raw_record, admin_level="municipal", region_name="上海市")
+    normalized = normalize_policy_record(
+        raw_record,
+        admin_level="municipal",
+        region_name="上海市",
+    )
 
     assert normalized["admin_level"] == "municipal"
     assert normalized["region_name"] == "上海市"
-    assert str(normalized["content_text"]).startswith("提出目标")
+    assert normalized["content_text"].startswith("提出目标")
