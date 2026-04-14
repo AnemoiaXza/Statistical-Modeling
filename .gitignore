@@ -18,9 +18,12 @@ data/processed/*
 outputs/tables/*
 outputs/figures/*
 logs/*
+!logs/data_records/
+!logs/data_records/**
 !data/raw/.gitkeep
 !data/interim/.gitkeep
 !data/processed/.gitkeep
 !outputs/tables/.gitkeep
 !outputs/figures/.gitkeep
 !logs/.gitkeep
+.omx/
