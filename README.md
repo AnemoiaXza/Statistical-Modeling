@@ -10,6 +10,7 @@ The project uses a `B-lite` structure:
 
 - Numbered scripts under `src/` map to research steps.
 - Reusable logic lives in `src/stat_modeling/`.
+- The policy-text module is limited to mechanism and moderation analysis support; it does not replace the main identification strategy.
 
 ## Setup
 
@@ -24,6 +25,15 @@ conda activate stat-modeling
 
 - Global random seed: `RANDOM_SEED = 42`
 - Required directories are managed by `stat_modeling.config.ensure_project_directories()`
+- Policy-text artifacts are stored under `data/interim/policy_text`, `data/processed/policy_text`, and `logs/policy_text`
+
+## Policy Text Module
+
+Use the policy-text scaffold when you need reproducible document discovery, normalization, rule extraction, scoring payload preparation, and `city-year` aggregation for the approved double-carbon corpus window.
+
+```bash
+python3 src/08_policy_text.py --help
+```
 
 ## Planned Run Order
 
@@ -34,3 +44,4 @@ conda activate stat-modeling
 5. `src/05_heterogeneity.py`
 6. `src/06_robustness.py`
 7. `src/07_spatial.py` (optional)
+8. `src/08_policy_text.py` (mechanism / moderation scaffold)
