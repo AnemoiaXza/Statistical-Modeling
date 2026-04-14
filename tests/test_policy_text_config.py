@@ -26,10 +26,7 @@ def test_ensure_project_directories_creates_policy_text_directories(tmp_path, mo
         tmp_path / "logs" / "policy_text",
     )
 
-    monkeypatch.setattr(config, "POLICY_TEXT_INTERIM_DIR", policy_directories[0])
-    monkeypatch.setattr(config, "POLICY_TEXT_PROCESSED_DIR", policy_directories[1])
-    monkeypatch.setattr(config, "POLICY_TEXT_LOGS_DIR", policy_directories[2])
-    monkeypatch.setattr(config, "REQUIRED_DIRECTORIES", policy_directories)
+    monkeypatch.setattr(config, "get_required_directories", lambda: policy_directories)
 
     created = config.ensure_project_directories()
 
