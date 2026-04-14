@@ -25,7 +25,16 @@ conda activate stat-modeling
 
 - Global random seed: `RANDOM_SEED = 42`
 - Required directories are managed by `stat_modeling.config.ensure_project_directories()`
-- Policy-text artifacts are staged under `data/interim/policy_text/`, `data/processed/policy_text/`, and `logs/policy_text/`
+- Policy-text artifacts are stored under `data/interim/policy_text`, `data/processed/policy_text`, and `logs/policy_text`
+- Raw HTML pages and downloaded attachments are organized beneath `data/interim/policy_text/raw_html` and `data/interim/policy_text/attachments`
+
+## Policy Text Module
+
+Use the policy-text scaffold when you need reproducible document discovery, normalization, rule extraction, scoring payload preparation, and `city-year` aggregation for the approved double-carbon corpus window.
+
+```bash
+python3 src/08_policy_text.py --help
+```
 
 ## Planned Run Order
 
