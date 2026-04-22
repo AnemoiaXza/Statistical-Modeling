@@ -70,3 +70,36 @@ Planned policy-text stages:
 - `score` — attach validated LLM scoring outputs
 - `aggregate` — roll document scores into city-year features
 - `full` — run the full staged pipeline once the package implementation is in place
+
+## Current DML status
+
+The repository now includes a first-pass runnable DML main-regression workflow and a synchronized `Table 2` result export.
+
+Current first-pass mainline:
+
+- sample: `294` cities / `1456` city-year observations
+- treatment: `digital_inclusive_finance_index`
+- outcome: `co2_emission_intensity`
+- controls: `gdp_total`, `secondary_industry_share`, `fiscal_expenditure`
+- cross-fitting: `GroupKFold(pku_city_code)`
+- covariance: `cluster(pku_city_code)`
+
+Current first-pass robustness result uses `co2_emission_total` as the outcome under the same control set.
+
+## Heterogeneity runtime note
+
+The heterogeneity input-preparation path is runnable in the main environment, but full `econml + shap` CATE / SHAP execution currently depends on a compatible Python environment.
+
+The compatible local runtime currently used in-session is a repo-local virtual environment:
+
+```bash
+python3 -m venv .omx/venvs/heterogeneity
+./.omx/venvs/heterogeneity/bin/python -m pip install --upgrade pip
+./.omx/venvs/heterogeneity/bin/python -m pip install econml==0.15.1 shap==0.43.0 doubleml==0.8.1
+PYTHONPATH=src ./.omx/venvs/heterogeneity/bin/python src/05_heterogeneity.py --check-deps
+```
+
+Note:
+
+- `econml==0.15.1` is compatible with `shap<0.44`
+- therefore `shap==0.43.0` is pinned in `environment.yml`

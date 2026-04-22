@@ -20,4 +20,4 @@ dependencies:
   - pip:
       - econml==0.15.1
       - doubleml==0.8.1
-      - shap==0.46.0
+      - shap==0.43.0
