@@ -4,14 +4,18 @@ from typing import Sequence
 
 from stat_modeling.config import INTERIM_DATA_DIR
 from stat_modeling.config import LOGS_DIR
+from stat_modeling.config import RANDOM_SEED
+from stat_modeling.config import TABLES_DIR
 from stat_modeling.config import ensure_project_directories
 from stat_modeling.data.io import read_table
 from stat_modeling.data.io import write_table
 from stat_modeling.data.io import write_text
+from stat_modeling.modeling.dml import fit_partial_linear_dml
 
 
 DEFAULT_INPUT_PATH = INTERIM_DATA_DIR / "modeling" / "dml_candidate_input_2019_2023.csv"
 DEFAULT_OUTPUT_PATH = INTERIM_DATA_DIR / "modeling" / "dml_run_input.csv"
+DEFAULT_RESULT_TABLE = TABLES_DIR / "table_02_dml_main.csv"
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -20,15 +24,21 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--input-path", type=Path, default=DEFAULT_INPUT_PATH)
     parser.add_argument("--output-path", type=Path, default=DEFAULT_OUTPUT_PATH)
+    parser.add_argument("--result-table-path", type=Path, default=DEFAULT_RESULT_TABLE)
     parser.add_argument("--summary-name", default="dml_input_readiness_summary.txt")
     parser.add_argument("--list-columns", action="store_true", help="Print available input columns and exit.")
     parser.add_argument("--treatment-column", default="digital_inclusive_finance_index")
     parser.add_argument("--outcome-column", default="co2_emission_intensity")
+    parser.add_argument("--group-column", default="pku_city_code")
+    parser.add_argument("--cluster-column", default="pku_city_code")
     parser.add_argument(
         "--control-columns",
         default="",
         help="Comma-separated control columns to require for the run input table.",
     )
+    parser.add_argument("--folds", type=int, default=5)
+    parser.add_argument("--fit", action="store_true", help="Run partial linear DML estimation after preparing filtered input.")
+    parser.add_argument("--spec-label", default="scenario_b_no_population_first_pass")
     return parser
 
 
@@ -48,6 +58,8 @@ def build_summary(
     treatment_column: str,
     outcome_column: str,
     control_columns: list[str],
+    group_column: str,
+    cluster_column: str,
     filtered_row_count: int | None = None,
 ) -> str:
     lines = [
@@ -59,6 +71,8 @@ def build_summary(
         f"treatment_column: {treatment_column}",
         f"main_outcome_column: {outcome_column}",
         f"robustness_outcome_column: co2_emission_total",
+        f"group_column: {group_column}",
+        f"cluster_column: {cluster_column}",
         f"control_columns: {control_columns}",
         "required_non_missing_columns:",
     ]
@@ -108,12 +122,34 @@ def main(argv: Sequence[str] | None = None) -> int:
         treatment_column=args.treatment_column,
         outcome_column=args.outcome_column,
         control_columns=control_columns,
+        group_column=args.group_column,
+        cluster_column=args.cluster_column,
         filtered_row_count=len(filtered),
     )
     summary_path = write_text(summary, LOGS_DIR / args.summary_name)
     print(f"DML input summary written to: {summary_path}")
     if control_columns:
         print(f"Filtered DML run input written to: {args.output_path}")
+    if args.fit:
+        result = fit_partial_linear_dml(
+            frame=filtered,
+            outcome_column=args.outcome_column,
+            treatment_column=args.treatment_column,
+            control_columns=control_columns,
+            folds=args.folds,
+            random_seed=RANDOM_SEED,
+            group_column=args.group_column,
+            cluster_column=args.cluster_column,
+        )
+        result_frame = result.to_frame()
+        result_frame["spec_label"] = args.spec_label
+        result_frame["treatment_column"] = args.treatment_column
+        result_frame["outcome_column"] = args.outcome_column
+        result_frame["group_column"] = args.group_column
+        result_frame["cluster_column"] = args.cluster_column
+        result_frame["control_columns"] = ", ".join(control_columns)
+        write_table(result_frame, args.result_table_path)
+        print(f"DML result table written to: {args.result_table_path}")
     return 0
 
 

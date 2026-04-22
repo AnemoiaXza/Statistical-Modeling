@@ -76,6 +76,32 @@
 
 ## 六、下一步待补
 
-1. 将 `04_dml_main.py` 从输入检查推进到真实 DML 主回归
-2. 明确人口变量最终口径是否进入主规格
-3. 视需要决定是否为 `营口 / 三沙 / 儋州` 补源
+1. 明确人口变量最终口径是否进入主规格
+2. 视需要决定是否为 `营口 / 三沙 / 儋州` 补源
+3. 将首轮 DML 结果扩展为稳健性回归、分组异质性和表格化输出
+
+## 七、当前首轮主回归结果（阶段性）
+
+基于当前主样本与控制集方案 B：
+
+- 样本：`294` 城，`1456` 个 city-year
+- 处理变量：`digital_inclusive_finance_index`
+- 主结果变量：`co2_emission_intensity`
+- 控制变量：`gdp_total + secondary_industry_share + fiscal_expenditure`
+- 方法：部分线性 DML（`5-fold cross-fitting`，nuisance models 为 `GradientBoostingRegressor`）
+
+当前首轮估计结果显示：
+
+- ATE = `-0.0387`
+- 标准误 = `0.0174`
+- 95% CI = `[-0.0728, -0.0046]`
+- p-value = `0.0260`
+- Cross-fitting = `GroupKFold(pku_city_code)`
+- 协方差估计 = `cluster(pku_city_code)`
+
+这一结果的方向与“数字普惠金融有助于降低城市碳排放强度”的理论预期一致。
+但必须强调：
+
+- 这仍是首轮主回归结果，不是最终论文定稿结果
+- 当前尚未加入稳健性回归、异质性分析与正式结果表述润色
+- 人口控制变量口径仍未最终锁定，因此该结果对应的是“方案 B 主规格”的阶段性结果
