@@ -43,3 +43,23 @@ def test_merge_policy_mechanism_attaches_mechanism_columns():
     )
     result = merge_policy_mechanism(base, mechanism)
     assert result.loc[0, "policy_strength"] == 3.0
+
+
+def test_aggregate_policy_scores_keeps_nan_province_groups():
+    from stat_modeling.policy_text.aggregate import aggregate_policy_scores
+
+    frame = pd.DataFrame(
+        [
+            {
+                "city_name_cn": "北京市",
+                "province_name_cn": None,
+                "year": 2021,
+                "policy_strength": 4.0,
+                "execution_clarity": 3.0,
+                "digital_green_synergy": 2.0,
+            }
+        ]
+    )
+    result = aggregate_policy_scores(frame)
+    assert len(result) == 1
+    assert result.loc[0, "sum_policy_strength_city_year"] == 4.0

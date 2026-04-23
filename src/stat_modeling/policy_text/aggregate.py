@@ -58,4 +58,4 @@ def aggregate_policy_scores(frame: pd.DataFrame) -> pd.DataFrame:
         aggregations[f"sum_{score_column}_city_year"] = (score_column, "sum")
         aggregations[f"mean_{score_column}_city_year"] = (score_column, "mean")
 
-    return frame.groupby(["city_name_cn", "province_name_cn", "year"], as_index=False).agg(**aggregations)
+    return frame.groupby(["city_name_cn", "province_name_cn", "year"], as_index=False, dropna=False).agg(**aggregations)
