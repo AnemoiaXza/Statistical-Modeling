@@ -1,0 +1,23 @@
+name: stat-modeling
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11.9
+  - pip=24.3
+  - numpy=1.26.4
+  - pandas=2.2.2
+  - scipy=1.13.1
+  - scikit-learn=1.5.2
+  - statsmodels=0.14.4
+  - linearmodels=5.4
+  - matplotlib=3.9.2
+  - seaborn=0.13.2
+  - pyarrow=17.0.0
+  - pytest=8.3.3
+  - requests=2.32.3
+  - beautifulsoup4=4.12.3
+  - pypdf=5.1.0
+  - pip:
+      - econml==0.15.1
+      - doubleml==0.8.1
+      - shap==0.43.0
