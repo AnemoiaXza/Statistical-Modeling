@@ -12,12 +12,22 @@ env/
 .env
 
 # Data and generated artifacts
-data/raw/*
+data/raw
+data/raw/carbon/*
+data/raw/digital/*
 data/interim/*
 data/processed/*
 outputs/tables/*
 outputs/figures/*
 logs/*
+
+
+!data/raw/carbon
+!data/raw/digital
+!data/raw/carbon/keep.md
+!data/raw/digital/keep.md
+!data/raw/carbon/.gitkeep
+!data/raw/digital/.gitkeep
 !logs/data_records/
 !logs/data_records/**
 !data/raw/.gitkeep
